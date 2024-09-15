@@ -3,3 +3,6 @@ __pycache__
 .vscode
 notes
 output_file.csv
+tmp
+data
+setup/config.yaml
