@@ -1,5 +1,5 @@
 import asyncio
-from langchain_core.messages import HumanMessage,AIMessage
+from langchain_core.messages import HumanMessage, AIMessage
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 
 from llm import llm
@@ -9,19 +9,25 @@ from memory import memory
 from utils import get_formatted_history
 
 agent = create_tool_calling_agent(llm, tools, prompt)
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
+agent_executor = AgentExecutor(
+    agent=agent, 
+    tools=tools, 
+    verbose=True, 
+    memory=memory
+)
 
 async def simulate_agent_calls():
     chat_history = await get_formatted_history('my-session')
 
-    initial_input = "Retrieve list of research papers on the Dogs"
+    initial_input = "Retrieve list of research papers on dogs."
     response = agent_executor.invoke(
         {
             "input": initial_input,
             "chat_history": chat_history,
         },
     )
+
     memory.chat_memory.add_user_message(HumanMessage(content=initial_input))
 
     if isinstance(response.get("chat_history"), list):
@@ -34,7 +40,7 @@ async def simulate_agent_calls():
 
     updated_history = await memory.chat_memory.aget_messages()
 
-    subsequent_input = "Get me the abstract of the first paper on the list from my previous request/prompt"
+    subsequent_input = "Give me the abstract on the first paper"
     subsequent_response = agent_executor.invoke(
         {
             "input": subsequent_input,
@@ -42,7 +48,6 @@ async def simulate_agent_calls():
         },
     )
     print("Subsequent response Length:", len(subsequent_response))
-    print("Subsequent response:", subsequent_response)
 
 
 asyncio.run(simulate_agent_calls())

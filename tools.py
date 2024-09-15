@@ -1,6 +1,6 @@
 from langchain.agents import tool
 from langchain.tools.retriever import create_retriever_tool
-from langchain_core.tools.simple import Tool
+# from langchain_core.tools.simple import Tool
 
 from langchain_community.document_loaders import ArxivLoader
 from langchain_openai import OpenAIEmbeddings
@@ -8,7 +8,6 @@ from langchain_mongodb import MongoDBAtlasVectorSearch
 
 
 from database import DB_NAME, MONGO_URI, COLLECTION_NAME, ATLAS_VECTOR_SEARCH_INDEX_NAME
-
 
 @tool
 def get_metadata_information_from_arxiv(word: str) -> list:
@@ -60,27 +59,27 @@ retriever_tool = create_retriever_tool(
 )
 
 
-# tools = [
-#     get_metadata_information_from_arxiv,
-#     get_information_from_arxiv,
-#     retriever_tool,
-# ]
-
-
 tools = [
-  Tool(
-    func=get_metadata_information_from_arxiv,
-    name="get_metadata_information_from_arxiv",
-    description="get_metadata_information_from_arxiv"
-  ),
-  Tool(
-    func=get_information_from_arxiv,
-    name="get_information_from_arxiv",
-    description="get_information_from_arxiv"
-  ),
-  Tool(
-    func=retriever_tool,
-    name="retriever_tool",
-    description="retriever_tool"
-  ),
+    get_metadata_information_from_arxiv,
+    get_information_from_arxiv,
+    retriever_tool,
 ]
+
+
+# tools = [
+#   Tool(
+#     func=get_metadata_information_from_arxiv,
+#     name="get_metadata_information_from_arxiv",
+#     description="get_metadata_information_from_arxiv"
+#   ),
+#   Tool(
+#     func=get_information_from_arxiv,
+#     name="get_information_from_arxiv",
+#     description="get_information_from_arxiv"
+#   ),
+#   Tool(
+#     func=retriever_tool,
+#     name="retriever_tool",
+#     description="retriever_tool"
+#   ),
+# ]
