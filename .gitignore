@@ -6,3 +6,4 @@ output_file.csv
 tmp
 data
 setup/config.yaml
+configs/config.yaml

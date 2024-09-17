@@ -1,53 +1,34 @@
-import asyncio
-from langchain_core.messages import HumanMessage, AIMessage
-from langchain.agents import AgentExecutor, create_tool_calling_agent
+import logging
+from langchain_core.messages import SystemMessage
+from langgraph.prebuilt import create_react_agent
+from langgraph.graph.graph import CompiledGraph
+from langchain_openai import ChatOpenAI
+from tools import Tools
 
-from llm import llm
-from tools import tools
-from prompts import prompt
-from memory import memory
-from utils import get_formatted_history
 
-agent = create_tool_calling_agent(llm, tools, prompt)
+AGENT_SYSTEM_TEMPLATE = """
+You are a helpful agent that retrieves research papers and answers questions about them.
+"""
 
-agent_executor = AgentExecutor(
-    agent=agent, 
-    tools=tools, 
-    verbose=True, 
-    memory=memory
-)
 
-async def simulate_agent_calls():
-    chat_history = await get_formatted_history('my-session')
-
-    initial_input = "Retrieve list of research papers on dogs."
-    response = agent_executor.invoke(
-        {
-            "input": initial_input,
-            "chat_history": chat_history,
-        },
+def init_agent(
+    llm: ChatOpenAI, tools: Tools
+) -> CompiledGraph:
+    agent_executor = create_react_agent(
+        llm,
+        tools,
+        messages_modifier=SystemMessage(content=AGENT_SYSTEM_TEMPLATE),
     )
 
-    memory.chat_memory.add_user_message(HumanMessage(content=initial_input))
+    logging.info("Agent initialized")
+    return agent_executor
 
-    if isinstance(response.get("chat_history"), list):
-        response_content = response.get("output", "")
-    else:
-        response_content = "No response from agent"
-
-    memory.save_context({"input": initial_input}, {"output": response_content})
-    memory.chat_memory.add_ai_message(AIMessage(content=response_content))
-
-    updated_history = await memory.chat_memory.aget_messages()
-
-    subsequent_input = "Give me the abstract on the first paper"
-    subsequent_response = agent_executor.invoke(
-        {
-            "input": subsequent_input,
-            "chat_history": updated_history,
-        },
-    )
-    print("Subsequent response Length:", len(subsequent_response))
-
-
-asyncio.run(simulate_agent_calls())
+class AIMessage:
+    def __init__(self, content: str, other_field: str):
+        self.content = content
+        self.other_field = other_field
+        
+def serialize_ai_message(message: AIMessage) -> dict:
+    return {
+        "content": message.content,
+    }

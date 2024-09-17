@@ -1,24 +1,23 @@
-import os
 from typing import Any, Dict, List
-from langchain_core.outputs.llm_result import LLMResult
-from langchain_fireworks.chat_models import ChatFireworks
-from langchain.callbacks.base import BaseCallbackHandler
 from langchain_openai import ChatOpenAI
+from langchain_core.outputs.llm_result import LLMResult
+from langchain.callbacks.base import BaseCallbackHandler
 
-FIREWORKS_API_KEY = os.environ.get("FIREWORKS_API_KEY")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+def init_llm(cfg: dict) -> ChatOpenAI:
+    llm = init_openai_chat(cfg)
+    return llm
 
-# llm = ChatOpenAI(
-#     model="gpt-3.5-turbo",
-#     api_key=OPENAI_API_KEY,
-#     max_tokens=2048,
-# )
 
-llm = ChatFireworks(
-    max_tokens=256,
-    api_key=FIREWORKS_API_KEY, 
-    model="accounts/fireworks/models/llama-v3p1-8b-instruct",
-)
+def init_openai_chat(cfg: dict) -> ChatOpenAI:
+    cb = ChatCallbackHandler()
+    model = ChatOpenAI(
+        model=cfg.get("OPENAI_GPT_MODEL", "gpt-3.5-turbo"),
+        api_key=cfg.get("OPENAI_API_KEY"),
+        max_tokens=cfg.get("OPENAI_MAX_TOKENS", 2048),
+        callbacks=[cb],
+    )
+
+    return model
 
 
 class ChatCallbackHandler(BaseCallbackHandler):
