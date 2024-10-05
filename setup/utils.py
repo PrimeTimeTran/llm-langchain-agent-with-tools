@@ -1,13 +1,22 @@
+from constants import EMBEDDINGS_LIMIT
+
+
 def batch_insert(collection, dataset_df):
     batch_size = 100
     insert_data = []
-    for idx, row in dataset_df.iterrows():
+    for _, row in dataset_df.iterrows():
+        embedding = row["embedding"]
+        if len(embedding) > EMBEDDINGS_LIMIT:
+            embedding = embedding[:EMBEDDINGS_LIMIT]
+        elif len(embedding) < EMBEDDINGS_LIMIT:
+            embedding = embedding + [0.0] * (EMBEDDINGS_LIMIT - len(embedding))
         insert_data.append(
             {
-                "vector": [float(val) for val in row["embedding"]],
+                "vector": embedding,
                 "title": row["title"],
                 "authors": row["authors"],
                 "abstract": row["abstract"],
+                "text": row["abstract"],
                 "submitter": row["submitter"],
             }
         )

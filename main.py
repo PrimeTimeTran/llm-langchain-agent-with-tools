@@ -4,12 +4,7 @@ from langchain.prompts import PromptTemplate
 
 from setup.setup import setup
 
-
-def summarize_papers(paper):
-    return paper["content"]
-
-
-agent, llm, tools = setup()
+agent, llm, tools, store = setup()
 
 system_msg = SystemMessage(
     content="You are a helpful assistant that retrieves research papers."
@@ -36,7 +31,8 @@ configurable = {
 config = RunnableConfig(configurable)
 
 response = agent.invoke(config)
-print("Response:", len(response["messages"]))
+
+print("response", response)
 
 if response.get("messages"):
     messages = []
@@ -46,9 +42,10 @@ if response.get("messages"):
             message = AIMessage(content=doc.content, id=doc.id)
             messages.append(message)
         else:
-            tool_output = tools[0].invoke(doc.content)
-            messages.append(ToolMessage(tool_output, tool_call_id=doc.id))
+            pass
+            # tool_output = tools[0].invoke(doc.content)
+            # messages.append(ToolMessage(tool_output, tool_call_id=doc.id))
     for msg in messages:
-        print("msg", msg)
+        print("msg", msg.content)
 else:
     print("No messages found.")

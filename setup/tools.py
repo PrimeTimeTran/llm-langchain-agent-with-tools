@@ -9,7 +9,7 @@ type Tools = list[Tool]
 
 def init_tools(cfg: dict, embeddings: Embeddings):
     tools, store = init_research_paper_retriever(cfg, embeddings)
-    return tools, store
+    return [tools], store
 
 
 def init_research_paper_retriever(cfg: dict, embeddings: Embeddings):

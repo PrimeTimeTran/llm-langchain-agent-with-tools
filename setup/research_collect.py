@@ -12,6 +12,7 @@ from pymilvus import (
 from configs import cfg
 from utils import batch_insert
 from embedding import init_embeddings
+from constants import EMBEDDINGS_LIMIT
 
 
 def init_database_collection(embeddings):
@@ -44,9 +45,10 @@ def init_database_collection(embeddings):
         schema = CollectionSchema(
             [
                 id_field,
-                FieldSchema("vector", DataType.FLOAT_VECTOR, dim=256),
+                FieldSchema("vector", DataType.FLOAT_VECTOR, dim=EMBEDDINGS_LIMIT),
                 FieldSchema("title", DataType.VARCHAR, max_length=500),
                 FieldSchema("authors", DataType.VARCHAR, max_length=1500),
+                FieldSchema("text", DataType.VARCHAR, max_length=5000),
                 FieldSchema("abstract", DataType.VARCHAR, max_length=5000),
                 FieldSchema("submitter", DataType.VARCHAR, max_length=100),
             ],
