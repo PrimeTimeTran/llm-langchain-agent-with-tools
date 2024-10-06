@@ -1,7 +1,8 @@
 import logging
-from langchain_milvus import Milvus
+
 from langchain_core.embeddings import Embeddings
 from langchain_core.vectorstores import VectorStore
+from langchain_milvus import Milvus
 
 
 def init_vector_store(cfg: dict, kind: str, embeddings: Embeddings) -> VectorStore:

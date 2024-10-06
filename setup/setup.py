@@ -1,8 +1,8 @@
-from setup.tools import init_tools
-from setup.llm import init_llm
-from setup.configs import cfg
 from setup.agent import init_agent
+from setup.configs import cfg
 from setup.embedding import init_embeddings
+from setup.llm import init_llm
+from setup.tools import init_tools
 
 
 def setup():

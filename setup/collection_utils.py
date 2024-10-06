@@ -1,6 +1,6 @@
 from pymilvus import (
-    utility,
     Collection,
+    utility,
 )
 
 from setup.constants import EMBEDDINGS_LIMIT

@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["primetimetran <primetimetran@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.2.15"
+langchain-milvus = "^0.1.4"
+langchain-openai = "^0.1.23"
+fastapi = {extras = ["standard"], version = "^0.112.2"}
+langgraph = "^0.2.14"
+google-cloud-logging = "^3.11.2"
+langgraph-checkpoint-postgres = "^1.0.6"
+google-cloud-storage = "^2.18.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 90
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+select = ["I"]
+
+[tool.ruff.format]
+quote-style = "double"

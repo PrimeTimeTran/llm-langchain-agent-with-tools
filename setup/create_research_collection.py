@@ -1,14 +1,14 @@
 import pandas as pd
 from datasets import load_dataset
 from pymilvus import (
-    DataType,
     Collection,
-    FieldSchema,
     CollectionSchema,
+    DataType,
+    FieldSchema,
 )
 
-from setup.constants import EMBEDDINGS_LIMIT
 from setup.collection_utils import batch_insert
+from setup.constants import EMBEDDINGS_LIMIT
 
 
 def create_research_collection():
@@ -48,9 +48,7 @@ def create_research_collection():
         "params": {"nprobe": 10},
     }
 
-    collection.create_index(
-        field_name="vector", index_params=index_params, timeout=None
-    )
+    collection.create_index(field_name="vector", index_params=index_params, timeout=None)
 
     try:
         data = load_dataset("MongoDB/subset_arxiv_papers_with_embeddings")

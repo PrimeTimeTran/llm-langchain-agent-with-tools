@@ -1,4 +1,5 @@
 import logging
+
 from langchain_core.embeddings import Embeddings
 from langchain_openai import OpenAIEmbeddings
 

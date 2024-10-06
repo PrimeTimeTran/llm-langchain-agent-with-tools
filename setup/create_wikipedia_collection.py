@@ -1,10 +1,12 @@
 import os
-import wget
 import zipfile
+from ast import literal_eval
+
 import chromadb
 import pandas as pd
-from ast import literal_eval
+import wget
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
+from langchain_core.vectorstores import VectorStore
 
 from setup.constants import EMBEDDING_MODEL
 
@@ -37,7 +39,7 @@ def query_collection(collection, query, max_results, dataframe):
     return df
 
 
-def create_wikipedia_collection():
+def create_wikipedia_collection(vector_store: VectorStore):
     article_df = pd.read_csv("../data/vector_database_wikipedia_articles_embedded.csv")
     print(article_df.head())
     article_df["title_vector"] = article_df.title_vector.apply(literal_eval)

@@ -1,14 +1,15 @@
 import logging
-from pymilvus import connections
-from langchain_milvus import Milvus
+
 from langchain_core.embeddings import Embeddings
 from langchain_core.vectorstores import VectorStore
+from langchain_milvus import Milvus
+from pymilvus import connections
 
-from setup.configs import cfg
-from setup.embedding import init_embeddings
 from setup.collection_utils import clean_collections
-from setup.create_wikipedia_collection import create_wikipedia_collection
+from setup.configs import cfg
 from setup.create_research_collection import create_research_collection
+from setup.create_wikipedia_collection import create_wikipedia_collection
+from setup.embedding import init_embeddings
 
 
 def init_milvus(embeddings: Embeddings) -> Milvus:
@@ -25,20 +26,20 @@ def init_milvus(embeddings: Embeddings) -> Milvus:
     return db
 
 
-def connect_to_db(embeddings):
+def connect_to_db(embeddings) -> VectorStore:
     try:
-        init_milvus(embeddings)
+        return 1
+        return init_milvus(embeddings)
     except Exception as e:
         print(f"Failed to connect to Milvus server: {e}")
 
 
 def init_collections(embeddings: Embeddings):
     try:
-        # Why does running not reflect this function call?
-        connect_to_db(embeddings)
+        vector_store: VectorStore = connect_to_db(embeddings)
         # collections_to_drop = []
         # clean_collections(collections_to_drop)
-        # create_wikipedia_collection()
+        create_wikipedia_collection(vector_store)
         # create_research_collection()
     except Exception as e:
         print(f"Failed to create collection or index: {e}")

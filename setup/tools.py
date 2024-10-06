@@ -1,6 +1,6 @@
-from langchain_core.tools.simple import Tool
-from langchain_core.embeddings import Embeddings
 from langchain.tools.retriever import create_retriever_tool
+from langchain_core.embeddings import Embeddings
+from langchain_core.tools.simple import Tool
 
 from setup.vector_store import init_vector_store
 
