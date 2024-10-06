@@ -6,7 +6,7 @@ import pandas as pd
 from ast import literal_eval
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
-from constants import EMBEDDING_MODEL
+from setup.constants import EMBEDDING_MODEL
 
 
 def download():
@@ -84,6 +84,3 @@ def create_wikipedia_collection():
         dataframe=article_df,
     )
     print("content_query_result.head()", content_query_result.head())
-
-
-create_wikipedia_collection()

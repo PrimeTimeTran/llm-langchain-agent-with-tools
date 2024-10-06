@@ -3,7 +3,7 @@ from pymilvus import (
     Collection,
 )
 
-from constants import EMBEDDINGS_LIMIT
+from setup.constants import EMBEDDINGS_LIMIT
 
 
 def batch_insert(collection, dataset_df):

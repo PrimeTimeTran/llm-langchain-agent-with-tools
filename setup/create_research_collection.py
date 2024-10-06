@@ -7,8 +7,8 @@ from pymilvus import (
     CollectionSchema,
 )
 
-from constants import EMBEDDINGS_LIMIT
-from collection_utils import batch_insert
+from setup.constants import EMBEDDINGS_LIMIT
+from setup.collection_utils import batch_insert
 
 
 def create_research_collection():

@@ -2,7 +2,7 @@ import logging
 from langchain_core.embeddings import Embeddings
 from langchain_openai import OpenAIEmbeddings
 
-from constants import EMBEDDING_MODEL
+from setup.constants import EMBEDDING_MODEL
 
 
 def init_embeddings(cfg: dict) -> Embeddings:
