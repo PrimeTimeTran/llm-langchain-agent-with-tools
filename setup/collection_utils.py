@@ -1,3 +1,8 @@
+from pymilvus import (
+    utility,
+    Collection,
+)
+
 from constants import EMBEDDINGS_LIMIT
 
 
@@ -34,3 +39,13 @@ def batch_insert(collection, dataset_df):
             print(f"Inserted {len(insert_data)} records successfully.")
         except Exception as e:
             print(f"Failed to insert last batch: {e}")
+
+
+def clean_collections(collections_to_drop):
+    for collect_name in collections_to_drop:
+        if collect_name in utility.list_collections():
+            try:
+                Collection(collect_name).drop()
+                print(f"Existing collection '{collect_name}' dropped successfully.")
+            except Exception as e:
+                print(f"Failed to drop existing collection: {e}")

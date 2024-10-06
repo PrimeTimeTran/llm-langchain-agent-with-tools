@@ -1,6 +1,7 @@
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
+
 from setup.configs import cfg
 
 docs = [
@@ -24,8 +25,6 @@ docs = [
 
 db = FAISS.from_documents(docs, OpenAIEmbeddings(api_key=cfg.get("OPENAI_API_KEY")))
 
-
-# Search with filter
 query = "Who is a programmer?"
 docs = db.similarity_search(query, k=2, filter={"genre": "science fiction"})
 
