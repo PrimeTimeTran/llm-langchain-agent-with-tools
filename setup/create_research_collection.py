@@ -12,6 +12,10 @@ from setup.constants import EMBEDDINGS_LIMIT
 
 
 def create_research_collection():
+    # TODO: Use the vector_store to save documents to Milvus.
+    # In this way we'll create our own embeddings
+    # for the text as opposed to using those already
+    # created which we don't know which embedding function was used
     name = "research_retriever"
     id_field = FieldSchema(
         name="id",
